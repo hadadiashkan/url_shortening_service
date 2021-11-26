@@ -1,0 +1,70 @@
+version: "3.6"
+
+x-build-args: &build_args
+  INSTALL_PYTHON_VERSION: 3.9
+
+x-default-volumes: &default_volumes
+  volumes:
+    - ./:/app
+    - ./dev.db:/tmp/dev.db
+
+x-mongo-volumes: &mongo_volumes
+  volumes:
+    # named volumes
+    - './volumes/mongodb:/data/db'
+    - './volumes/mongo/config:/data/configdb'
+
+
+services:
+  flask-dev:
+    build:
+      context: .
+      target: development
+      args:
+        <<: *build_args
+    image: "url_shortener-development"
+    ports:
+      - "8000:5000"
+    <<: *default_volumes
+
+  flask-prod:
+    build:
+      context: .
+      target: production
+      args:
+        <<: *build_args
+    image: "url_shortener-production"
+    ports:
+      - "8000:5000"
+    depends_on:
+      - "mongodb"
+    env_file:
+      - '.env'
+    <<: *default_volumes
+
+  manage:
+    build:
+      context: .
+      target: development
+      args:
+        <<: *build_args
+    entrypoint: flask
+    environment:
+      FLASK_ENV: production
+      FLASK_DEBUG: 0
+    image: "url_shortener-manage"
+    stdin_open: true
+    tty: true
+    <<: *default_volumes
+
+  mongodb:
+    image: 'mongo:4.2.3-bionic'
+    ports:
+      - '27011:27017'
+    env_file:
+      - '.env'
+    <<: *mongo_volumes
+
+volumes:
+  mongodb: { }
+  mongoconfig: { }
