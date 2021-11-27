@@ -137,7 +137,6 @@ flask==2.0.2
     #   -r requirements/prod.txt
     #   flask-jwt-extended
     #   flask-marshmallow
-    #   flask-mongoengine
     #   flask-restful
     #   flask-sqlalchemy
     #   flask-wtf
@@ -147,9 +146,9 @@ flask-jwt-extended==4.3.1
     #   -r requirements/dev.txt
     #   -r requirements/prod.txt
 flask-marshmallow==0.14.0
-    # via -r requirements/prod.txt
-flask-mongoengine==1.0.0
-    # via -r requirements/dev.txt
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/prod.txt
 flask-restful==0.3.9
     # via
     #   -r requirements/dev.txt
@@ -162,7 +161,6 @@ flask-wtf==1.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/prod.txt
-    #   flask-mongoengine
 gevent==21.8.0
     # via
     #   -r requirements/dev.txt
@@ -231,18 +229,15 @@ marshmallow==3.14.1
     #   -r requirements/prod.txt
     #   environs
     #   flask-marshmallow
-    #   marshmallow-mongoengine
-marshmallow-mongoengine==0.30.2
-    # via -r requirements/dev.txt
+    #   marshmallow-sqlalchemy
+marshmallow-sqlalchemy==0.26.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/prod.txt
 mccabe==0.6.1
     # via
     #   -r requirements/dev.txt
     #   flake8
-mongoengine==0.23.1
-    # via
-    #   -r requirements/dev.txt
-    #   flask-mongoengine
-    #   marshmallow-mongoengine
 mypy-extensions==0.4.3
     # via
     #   -r requirements/dev.txt
@@ -282,6 +277,8 @@ prompt-toolkit==3.0.22
     #   -r requirements/dev.txt
     #   -r requirements/prod.txt
     #   click-repl
+psycopg2-binary==2.9.2
+    # via -r requirements/prod.txt
 py==1.11.0
     # via
     #   -r requirements/dev.txt
@@ -310,10 +307,6 @@ pyjwt==2.3.0
     #   -r requirements/dev.txt
     #   -r requirements/prod.txt
     #   flask-jwt-extended
-pymongo==3.12.1
-    # via
-    #   -r requirements/dev.txt
-    #   mongoengine
 pyparsing==3.0.6
     # via
     #   -r requirements/dev.txt
@@ -382,6 +375,7 @@ sqlalchemy==1.4.27
     #   -r requirements/dev.txt
     #   -r requirements/prod.txt
     #   flask-sqlalchemy
+    #   marshmallow-sqlalchemy
 supervisor==4.2.2
     # via
     #   -r requirements/dev.txt
@@ -457,7 +451,6 @@ wtforms[email]==3.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/prod.txt
-    #   flask-mongoengine
     #   flask-wtf
 zipp==3.6.0
     # via

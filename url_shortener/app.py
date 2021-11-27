@@ -7,7 +7,7 @@ import sys
 from flask import Flask, render_template
 
 from url_shortener import commands
-from url_shortener.extensions import apispec, celery, jwt, mongo
+from url_shortener.extensions import apispec, celery, jwt, db, ma
 
 
 def create_app(config_object: str = "config.settings.Config", testing: bool = False) -> Flask:
@@ -35,8 +35,9 @@ def create_app(config_object: str = "config.settings.Config", testing: bool = Fa
 
 def register_extensions(app: Flask) -> None:
     """Register Flask extensions."""
-    mongo.init_app(app)
+    db.init_app(app)
     jwt.init_app(app)
+    ma.init_app(app)
     return None
 
 
@@ -69,7 +70,7 @@ def register_shellcontext(app: Flask) -> None:
 
     def shell_context():
         """Shell context objects."""
-        return {"mongo": mongo, "Song": ''}
+        return {}
 
     app.shell_context_processor(shell_context)
 
@@ -78,6 +79,7 @@ def register_cli(app: Flask) -> None:
     """Register Click commands."""
     app.cli.add_command(commands.test)
     app.cli.add_command(commands.lint)
+    app.cli.add_command(commands.init)
 
 
 def configure_logger(app: Flask) -> None:

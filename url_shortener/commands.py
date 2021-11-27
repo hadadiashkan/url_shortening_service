@@ -5,6 +5,9 @@ from glob import glob
 from subprocess import call
 
 import click
+from flask.cli import with_appcontext
+
+from url_shortener.extensions import db
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -63,3 +66,10 @@ def lint(fix_imports, check):
         execute_tool("Fixing import order", "isort", *isort_args)
     execute_tool("Formatting style", "black", *black_args)
     execute_tool("Checking code style", "flake8")
+
+
+@click.command("init")
+@with_appcontext
+def init():
+    """Create a new admin user"""
+    db.create_all()

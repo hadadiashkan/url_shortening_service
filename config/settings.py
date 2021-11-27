@@ -22,13 +22,13 @@ class Config:
     ENV = env.str("FLASK_ENV", default="production")
     DEBUG = ENV == "development"
 
-    MONGODB_SETTINGS = [
-        {
-            "db": env.str("MONGODB_DB"),
-            "host": env.str("MONGODB_HOST"),
-            "port": env.int("MONGODB_PORT"),
-        }
-    ]
+    POSTGRES_USER = env.str("POSTGRES_USER")
+    POSTGRES_PASSWORD = env.str("POSTGRES_PASSWORD")
+    POSTGRES_DB = env.str("POSTGRES_DB")
+    POSTGRES_HOST = env.str("POSTGRES_HOST")
+    POSTGRES_PORT = env.int("POSTGRES_PORT")
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     UPLOAD_DIR = env.str("UPLOAD_DIR")
 
@@ -42,5 +42,3 @@ class Config:
 
     SECRET_KEY = urandom(24)
     SEND_FILE_MAX_AGE_DEFAULT = env.int("SEND_FILE_MAX_AGE_DEFAULT")
-
-    SHORT_URL_LENGTH = 3

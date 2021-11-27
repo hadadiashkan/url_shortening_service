@@ -130,6 +130,9 @@ marshmallow==3.14.1
     #   -r requirements/prod.txt
     #   environs
     #   flask-marshmallow
+    #   marshmallow-sqlalchemy
+marshmallow-sqlalchemy==0.26.1
+    # via -r requirements/prod.txt
 packaging==21.3
     # via
     #   -r requirements/prod.txt
@@ -148,6 +151,8 @@ prompt-toolkit==3.0.22
     # via
     #   -r requirements/prod.txt
     #   click-repl
+psycopg2-binary==2.9.2
+    # via -r requirements/prod.txt
 py==1.11.0
     # via
     #   -r requirements/prod.txt
@@ -189,6 +194,7 @@ sqlalchemy==1.4.27
     # via
     #   -r requirements/prod.txt
     #   flask-sqlalchemy
+    #   marshmallow-sqlalchemy
 supervisor==4.2.2
     # via -r requirements/prod.txt
 toml==0.10.2

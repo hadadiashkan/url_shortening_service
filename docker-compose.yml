@@ -8,11 +8,10 @@ x-default-volumes: &default_volumes
     - ./:/app
     - ./dev.db:/tmp/dev.db
 
-x-mongo-volumes: &mongo_volumes
+x-postgres-volumes: &postgres_volumes
   volumes:
     # named volumes
-    - './volumes/mongodb:/data/db'
-    - './volumes/mongo/config:/data/configdb'
+    - 'postgres:/var/lib/postgresql/data'
 
 
 services:
@@ -24,7 +23,7 @@ services:
         <<: *build_args
     image: "url_shortener-development"
     ports:
-      - "8000:5000"
+      - "12000:5000"
     <<: *default_volumes
 
   flask-prod:
@@ -35,9 +34,9 @@ services:
         <<: *build_args
     image: "url_shortener-production"
     ports:
-      - "8000:5000"
+      - "12000:5000"
     depends_on:
-      - "mongodb"
+      - "postgres"
     env_file:
       - '.env'
     <<: *default_volumes
@@ -49,6 +48,8 @@ services:
       args:
         <<: *build_args
     entrypoint: flask
+    depends_on:
+      - "postgres"
     environment:
       FLASK_ENV: production
       FLASK_DEBUG: 0
@@ -57,14 +58,14 @@ services:
     tty: true
     <<: *default_volumes
 
-  mongodb:
-    image: 'mongo:4.2.3-bionic'
-    ports:
-      - '27011:27017'
+  postgres:
     env_file:
       - '.env'
-    <<: *mongo_volumes
+    image: 'postgres:10.3-alpine'
+    ports:
+      - '5410:5432'
+    <<: *postgres_volumes
+
 
 volumes:
-  mongodb: { }
-  mongoconfig: { }
+  postgres: { }
