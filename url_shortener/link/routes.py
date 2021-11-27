@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import request
+from flask import request, redirect
 from flask_restful import Api, Resource
 
 from .models import Link
@@ -21,7 +21,7 @@ class ShortLink(Resource):
         link = Link.query.filter(Link.short_url == short_url).first_or_404()
         link.visits += 1
         db.session.commit()
-        return custom_rest_response(data={'link': LinkSchema().dump(link)})
+        return redirect(link.original_url)
 
 
 def get_resources():
